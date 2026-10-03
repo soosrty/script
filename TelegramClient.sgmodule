@@ -1,0 +1,14 @@
+#!name=Telegram 客户端跳转
+#!desc=client 参数填写 URL Scheme：sg=Swiftgram，na=Nagram，turrit=Turrit，tg=官方 Telegram。默认 sg。仅处理经过 Surge 的网页请求，不接管 iOS Universal Links。
+#!author=海鸥
+#!arguments=client:sg
+
+[URL Rewrite]
+^https?://(?:t\.me|telegram\.me|telegram\.dog)/(?:\+|joinchat/)([A-Za-z0-9_-]+)/?(?:\?.*)?$ {{{client}}}://join?invite=$1 307
+^https?://(?:t\.me|telegram\.me|telegram\.dog)/c/([0-9]+)/([0-9]+)/?$ {{{client}}}://privatepost?channel=$1&post=$2 307
+^https?://(?:t\.me|telegram\.me|telegram\.dog)/(?:s/)?([A-Za-z][A-Za-z0-9_]{3,30}[A-Za-z0-9])/([0-9]+)/?$ {{{client}}}://resolve?domain=$1&post=$2 307
+^https?://(?:t\.me|telegram\.me|telegram\.dog)/([A-Za-z][A-Za-z0-9_]{3,30}[A-Za-z0-9])/?\?(.+)$ {{{client}}}://resolve?domain=$1&$2 307
+^https?://(?:t\.me|telegram\.me|telegram\.dog)/([A-Za-z][A-Za-z0-9_]{3,30}[A-Za-z0-9])/?$ {{{client}}}://resolve?domain=$1 307
+
+[MITM]
+hostname = %APPEND% t.me, telegram.me, telegram.dog
